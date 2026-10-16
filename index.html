@@ -1,4 +1,9 @@
-<!DOCTYPE html><html lang="id"><head><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-2XMZNLZYX6"></script><script>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2XMZNLZYX6"></script>
+<script>
 window.dataLayer = window.dataLayer || [];
 
 function gtag(){
@@ -7,16 +12,26 @@ function gtag(){
 
 gtag('js', new Date());
 gtag('config', 'G-2EMZHLZYX6');
-</script><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Video Player</title><style>
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Player</title>
+<style>
 body{
     margin:0;
     background:#000;
+    overflow: hidden;
+}
+
+.player-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
 }
 
 video{
     width:100%;
-    height:100vh;
+    height:100%;
     object-fit:contain;
     background:#000;
 }
@@ -27,19 +42,106 @@ video{
     left:10px;
     color:#fff;
     font-size:14px;
+    z-index: 10;
 }
-</style></head><body><video
-id="player"
-controls
-playsinline
-controlsList="nodownload"
 
-«»
+/* =========================
+   STYLE IKLAN MELAYANG
+========================= */
+.floating-ad {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 450px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: #fff;
+    font-family: sans-serif;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 20;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
 
-<source src="" type="video/mp4">
+.floating-ad-top {
+    top: 15px;
+}
 
-</video><script>
+.floating-ad-bottom {
+    bottom: 60px; /* Di atas kontrol bawaan video */
+}
 
+.floating-ad .ad-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    flex-grow: 1;
+}
+
+.floating-ad .ad-tag {
+    background: #ffcc00;
+    color: #000;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.floating-ad .close-btn {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.floating-ad .close-ai:hover {
+    color: #fff;
+}
+</style>
+</head>
+<body>
+
+<div class="player-container">
+    <!-- IKLAN MELAYANG ATAS -->
+    <div id="adTop" class="floating-ad floating-ad-top">
+        <a id="linkAdTop" href="#" target="_blank" class="ad-content">
+            <span class="ad-tag">Iklan</span>
+            <span id="textAdTop">Promo Spesial Hari Ini - Klik di Sini!</span>
+        </a>
+        <button class="close-btn" onclick="closeAd('adTop')">&times;</button>
+    </div>
+
+    <video
+        id="player"
+        controls
+        playsinline
+        controlsList="nodownload">
+        <source src="" type="video/mp4">
+    </video>
+
+    <!-- IKLAN MELAYANG BAWAH -->
+    <div id="adBottom" class="floating-ad floating-ad-bottom">
+        <a id="linkAdBottom" href="#" target="_blank" class="ad-content">
+            <span class="ad-tag"> Sponsor</span>
+            <span id="textAdBottom">Dapatkan Penawaran Menarik di Shopee!</span>
+        </a>
+        <button class="close-btn" onclick="closeAd('adBottom')">&times;</button>
+    </div>
+</div>
+
+<script>
 /* =========================
    KONFIGURASI
 ========================= */
@@ -48,11 +150,11 @@ const JSON_URL = "videos.json";
 
 /* SMART LINK */
 const DIRECT_LINK =
-"https://auctionr.org/4/edf1b6f92eb663c8c88fadb9bb1fd688";
+"https://auctionr.org/4/fb8031c04ab03615612d992bb11d01b9";
 
 /* SHOPEE */
 const SHOPEE_LINK =
-"https://s.shopee.co.id/2BFfzx9bYH";
+"https://s.shopee.co.id/7KxnnHPkUU";
 
 
 const video = document.getElementById("player");
@@ -62,11 +164,24 @@ let redirected = false;
 
 
 /* =========================
+   SETUP LINK IKLAN MELAYANG
+========================= */
+document.getElementById("linkAdTop").href = DIRECT_LINK;
+document.getElementById("linkAdBottom").href = SHOPEE_LINK;
+
+function closeAd(id) {
+    const el = document.getElementById(id);
+    if(el) {
+        el.style.display = "none";
+    }
+}
+
+
+/* =========================
    PILIH IKLAN RANDOM
 ========================= */
 
 function getRandomAd(){
-
     const ads = [
         DIRECT_LINK,
         SHOPEE_LINK
@@ -84,7 +199,6 @@ function getRandomAd(){
 ========================= */
 
 function redirectRandom(){
-
     if(redirected) return;
 
     redirected = true;
@@ -111,43 +225,30 @@ const id = decodeURIComponent(
 ========================= */
 
 fetch(JSON_URL)
-
 .then(res => {
-
     if(!res.ok){
         throw new Error("Gagal mengambil videos.json");
     }
-
     return res.json();
-
 })
-
 .then(data => {
-
     const vids = data.videos;
 
     const selected =
         vids.find(v => v.id === id);
 
     if(!selected){
-
         document.body.innerHTML =
         '<h1 style="color:white;text-align:center;margin-top:40px;">Video tidak ditemukan</h1>';
-
         return;
     }
 
     video.src = selected.cdn;
-
 })
-
 .catch(error => {
-
     console.error(error);
-
     document.body.innerHTML =
     '<h1 style="color:white;text-align:center;margin-top:40px;">Gagal memuat video</h1>';
-
 });
 
 
@@ -156,40 +257,36 @@ fetch(JSON_URL)
 ========================= */
 
 video.addEventListener("click", function(){
-
     /* KLIK PERTAMA */
-
     if(!clicked){
-
         clicked = true;
-
         return;
     }
 
-
     /* KLIK KEDUA DAN SETERUSNYA */
-
     redirectRandom();
-
 });
 
 
 /* =========================
-   REDIRECT SETELAH 30 DETIK
+   REDIRECT SETELAH 30 DETIK / OTOMATIS TUTUP IKLAN
 ========================= */
 
 video.addEventListener("timeupdate", function(){
+    // Hilangkan iklan melayang secara otomatis setelah video berjalan 5 detik
+    if(video.currentTime >= 5){
+        closeAd('adTop');
+        closeAd('adBottom');
+    }
 
     if(
         !redirected &&
         video.currentTime >= 30
     ){
-
         redirectRandom();
-
     }
-
 });
+</script>
 
-</script></body>
+</body>
 </html>
