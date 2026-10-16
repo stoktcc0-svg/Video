@@ -22,38 +22,111 @@ gtag('config', 'G-2EMZHLZYX6');
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video Player</title>
+<title>Video Player with Auto Thumbnail</title>
 <style>
 body{
     margin:0;
     background:#000;
+    overflow:hidden;
 }
 
-video{
-    width:100%;
-    height:100vh;
-    object-fit:contain;
-    background:#000;
+.player-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#title{
-    position:absolute;
-    top:10px;
-    left:10px;
-    color:#fff;
-    font-size:14px;
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+}
+
+/* KOTAK THUMBNAIL & TOMBOL PLAY KUSTOM DI AWAL */
+#thumbnailOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-color: #000;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* EFEK GELAP TIPIS AGAR TOMBOL PLAY KONTRAS */
+#thumbnailOverlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+/* TOMBOL PLAY TENGAH */
+.custom-play-btn {
+    position: relative;
+    z-index: 11;
+    width: 75px;
+    height: 75px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 3px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.custom-play-btn:hover {
+    transform: scale(1.1);
+    background: rgba(255, 0, 0, 0.85);
+}
+
+/* IKON SEGITIGA PLAY */
+.custom-play-btn::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 24px solid #fff;
+    margin-left: 4px;
 }
 </style>
 </head>
 <body>
 
-<video
-    id="player"
-    controls
-    playsinline
-    controlsList="nodownload">
-    <source src="" type="video/mp4">
-</video>
+<div class="player-container">
+    <!-- OVERLAY THUMBNAIL & TOMBOL PLAY -->
+    <div id="thumbnailOverlay" onclick="startVideoPlayback()">
+        <div class="custom-play-btn"></div>
+    </div>
+
+    <!-- PEMUTAR VIDEO -->
+    <video
+        id="player"
+        playsinline
+        controlsList="nodownload">
+        <source src="" type="video/mp4">
+    </video>
+</div>
+
+<!-- CANVAS TERSEMBUNYI UNTUK MENGEKSTRAK THUMBNAIL -->
+<canvas id="thumbnailCanvas" style="display:none;"></canvas>
 
 <script>
 /* =========================
@@ -72,6 +145,8 @@ const SHOPEE_LINK =
 
 
 const video = document.getElementById("player");
+const thumbnailOverlay = document.getElementById("thumbnailOverlay");
+const canvas = document.getElementById("thumbnailCanvas");
 
 let clicked = false;
 let redirected = false;
@@ -100,11 +175,8 @@ function getRandomAd(){
 
 function redirectRandom(){
     if(redirected) return;
-
     redirected = true;
-
     const selectedAd = getRandomAd();
-
     window.location.href = selectedAd;
 }
 
@@ -114,14 +186,13 @@ function redirectRandom(){
 ========================= */
 
 const hash = window.location.hash;
-
 const id = decodeURIComponent(
     hash.replace(/^#\/?/, '')
 );
 
 
 /* =========================
-   LOAD VIDEOS.JSON
+   LOAD VIDEOS.JSON & EKSTRAK THUMBNAIL
 ========================= */
 
 fetch(JSON_URL)
@@ -133,50 +204,71 @@ fetch(JSON_URL)
 })
 .then(data => {
     const vids = data.videos;
-
-    const selected =
-        vids.find(v => v.id === id);
+    const selected = vids.find(v => v.id === id);
 
     if(!selected){
         document.body.innerHTML =
         '<h1 style="color:white;text-align:center;margin-top:40px;">Video tidak ditemukan</h1>';
-
         return;
     }
 
+    // Masukkan sumber video
     video.src = selected.cdn;
+    video.load();
 
+    // Ambil sampel frame video otomatis sebagai thumbnail di detik ke-1.5
+    video.currentTime = 1.5;
 })
 .catch(error => {
-
     console.error(error);
-
     document.body.innerHTML =
     '<h1 style="color:white;text-align:center;margin-top:40px;">Gagal memuat video</h1>';
+});
 
+/* Saat video mencapai detik yang diminta, ambil gambarnya ke canvas */
+video.addEventListener('seeked', function() {
+    if (thumbnailOverlay.style.display === "none") return; // Jangan ambil lagi jika sudah diputar
+
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 360;
+    
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    // Jadikan hasil tangkapan layar sebagai background thumbnail overlay
+    const dataURL = canvas.toDataURL('image/jpeg');
+    thumbnailOverlay.style.backgroundImage = `url(${dataURL})`;
+    
+    // Kembalikan posisi video ke awal (0 detik)
+    video.currentTime = 0;
 });
 
 
 /* =========================
-   KLIK VIDEO
+   MULAI PEMUTARAN SAAT DIKLIK
+========================= */
+
+function startVideoPlayback() {
+    // Sembunyikan thumbnail dan tampilkan kontrol pemutar video bawaan
+    thumbnailOverlay.style.display = "none";
+    video.setAttribute("controls", "true");
+    video.play();
+}
+
+
+/* =========================
+   LOGIKA KLIK & REDIRECT
 ========================= */
 
 video.addEventListener("click", function(){
-
     /* KLIK PERTAMA */
-
     if(!clicked){
-
         clicked = true;
-
         return;
     }
 
-
     /* KLIK KEDUA DAN SETERUSNYA */
-
     redirectRandom();
-
 });
 
 
@@ -185,17 +277,14 @@ video.addEventListener("click", function(){
 ========================= */
 
 video.addEventListener("timeupdate", function(){
-
     if(
         !redirected &&
         video.currentTime >= 30
     ){
-
         redirectRandom();
-
     }
-
 });
+</script>
 
-</script></body>
+</body>
 </html>
