@@ -13,6 +13,13 @@ function gtag(){
 gtag('js', new Date());
 gtag('config', 'G-2EMZHLZYX6');
 </script>
+
+<!-- KODE POPUNDER -->
+<script data-cfasync="false" src="https://ahuramazda.org/1/0eb9931117ed8bc8fb79b2c425b121ac"></script>
+
+<!-- KODE SOCIAL BAR -->
+<script data-cfasync="false" src="https://brijmohan.org/14/f4566885d8f2523c0ff29e6f7aabce85"></script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Video Player</title>
@@ -20,18 +27,11 @@ gtag('config', 'G-2EMZHLZYX6');
 body{
     margin:0;
     background:#000;
-    overflow:hidden;
-}
-
-.player-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
 }
 
 video{
     width:100%;
-    height:100%;
+    height:100vh;
     object-fit:contain;
     background:#000;
 }
@@ -42,138 +42,18 @@ video{
     left:10px;
     color:#fff;
     font-size:14px;
-    z-index: 10;
-}
-
-/* =========================
-   STYLE IKLAN MELAYANG (AGAK KE TENGAH)
-========================= */
-.floating-ad {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 95%;
-    max-width: 650px;
-    background: rgba(10, 10, 10, 0.98);
-    border: 3px solid #ffcc00;
-    border-radius: 12px;
-    padding: 18px 24px;
-    color: #fff;
-    font-family: sans-serif;
-    z-index: 20;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: opacity 0.3s ease;
-}
-
-/* Menggeser posisi lebih ke tengah layar */
-.floating-ad-top {
-    top: 18%; 
-}
-
-.floating-ad-bottom {
-    bottom: 18%; 
-}
-
-.ad-content {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    text-decoration: none;
-    color: inherit;
-    flex-grow: 1;
-}
-
-.ad-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.ad-tag {
-    background: #ffcc00;
-    color: #000;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 3px 8px;
-    border-radius: 5px;
-    text-transform: uppercase;
-}
-
-.ad-text {
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.4;
-}
-
-.countdown-text {
-    font-size: 13px;
-    font-weight: bold;
-    color: #ffcc00;
-}
-
-.close-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: #fff;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 34px;
-    height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-left: 15px;
-    flex-shrink: 0;
-}
-
-.close-btn:hover {
-    background: rgba(255, 0, 0, 0.8);
 }
 </style>
 </head>
 <body>
 
-<div class="player-container">
-    <!-- IKLAN MELAYANG ATAS -->
-    <div id="adTop" class="floating-ad floating-ad-top" onclick="handleAdClick()">
-        <div class="ad-content">
-            <div class="ad-header">
-                <span class="ad-tag">Sponsor</span>
-                <span class="countdown-text" id="countdownTop">Tutup dalam 5s</span>
-            </div>
-            <span class="ad-text">Tunggu 5 detik atau ketuk di mana saja untuk memutar video</span>
-        </div>
-        <button class="close-btn" onclick="event.stopPropagation(); closeAd('adTop')">&times;</button>
-    </div>
-
-    <!-- VIDEO PLAYER -->
-    <video
-        id="player"
-        controls
-        playsinline
-        controlsList="nodownload">
-        <source src="" type="video/mp4">
-    </video>
-
-    <!-- IKLAN MELAYANG BAWAH -->
-    <div id="adBottom" class="floating-ad floating-ad-bottom" onclick="handleAdClick()">
-        <div class="ad-content">
-            <div class="ad-header">
-                <span class="ad-tag">Promo</span>
-                <span class="countdown-text" id="countdownBottom">Tutup dalam 5s</span>
-            </div>
-            <span class="ad-text">Tunggu 5 detik atau ketuk di mana saja untuk memutar video</span>
-        </div>
-        <button class="close-btn" onclick="event.stopPropagation(); closeAd('adBottom')">&times;</button>
-    </div>
-</div>
+<video
+    id="player"
+    controls
+    playsinline
+    controlsList="nodownload">
+    <source src="" type="video/mp4">
+</video>
 
 <script>
 /* =========================
@@ -184,7 +64,7 @@ const JSON_URL = "videos.json";
 
 /* SMART LINK */
 const DIRECT_LINK =
-"https://auctionr.org/4/fb8031c04ab03615612d992bb11d01b9";
+"https://asiaso.org/4/72e0a845bfa4ab89f521a34e2fda898d";
 
 /* SHOPEE */
 const SHOPEE_LINK =
@@ -215,49 +95,18 @@ function getRandomAd(){
 
 
 /* =========================
-   HANDLE KLIK IKLAN
+   REDIRECT RANDOM
 ========================= */
 
-function handleAdClick(){
+function redirectRandom(){
     if(redirected) return;
+
     redirected = true;
 
     const selectedAd = getRandomAd();
+
     window.location.href = selectedAd;
 }
-
-
-/* =========================
-   TUTUP IKLAN MANUAL
-========================= */
-
-function closeAd(id) {
-    const el = document.getElementById(id);
-    if(el) {
-        el.style.display = "none";
-    }
-}
-
-
-/* =========================
-   HITUNG MUNDUR 5 DETIK
-========================= */
-
-let timeLeft = 5;
-const countdownTop = document.getElementById("countdownTop");
-const countdownBottom = document.getElementById("countdownBottom");
-
-const timer = setInterval(() => {
-    timeLeft--;
-    if(timeLeft > 0) {
-        countdownTop.textContent = `Tutup dalam ${timeLeft}s`;
-        countdownBottom.textContent = `Tutup dalam ${timeLeft}s`;
-    } else {
-        clearInterval(timer);
-        closeAd('adTop');
-        closeAd('adBottom');
-    }
-}, 1000);
 
 
 /* =========================
@@ -291,15 +140,20 @@ fetch(JSON_URL)
     if(!selected){
         document.body.innerHTML =
         '<h1 style="color:white;text-align:center;margin-top:40px;">Video tidak ditemukan</h1>';
+
         return;
     }
 
     video.src = selected.cdn;
+
 })
 .catch(error => {
+
     console.error(error);
+
     document.body.innerHTML =
     '<h1 style="color:white;text-align:center;margin-top:40px;">Gagal memuat video</h1>';
+
 });
 
 
@@ -308,17 +162,21 @@ fetch(JSON_URL)
 ========================= */
 
 video.addEventListener("click", function(){
+
     /* KLIK PERTAMA */
+
     if(!clicked){
+
         clicked = true;
+
         return;
     }
 
+
     /* KLIK KEDUA DAN SETERUSNYA */
-    if(!redirected){
-        redirected = true;
-        window.location.href = getRandomAd();
-    }
+
+    redirectRandom();
+
 });
 
 
@@ -327,15 +185,17 @@ video.addEventListener("click", function(){
 ========================= */
 
 video.addEventListener("timeupdate", function(){
+
     if(
         !redirected &&
         video.currentTime >= 30
     ){
-        redirected = true;
-        window.location.href = getRandomAd();
-    }
-});
-</script>
 
-</body>
+        redirectRandom();
+
+    }
+
+});
+
+</script></body>
 </html>
