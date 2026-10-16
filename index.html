@@ -36,76 +36,124 @@ video{
     background:#000;
 }
 
-/* IKLAN OVERLAY DI AWAL VIDEO */
+#title{
+    position:absolute;
+    top:10px;
+    left:10px;
+    color:#fff;
+    font-size:14px;
+    z-index: 10;
+}
+
+/* =========================
+   STYLE IKLAN MELAYANG (AGAK KE TENGAH)
+========================= */
 .floating-ad {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 650px;
+    background: rgba(10, 10, 10, 0.98);
+    border: 3px solid #ffcc00;
+    border-radius: 12px;
+    padding: 18px 24px;
+    color: #fff;
+    font-family: sans-serif;
     z-index: 20;
-    background: rgba(0, 0, 0, 0.85);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: opacity 0.3s ease;
+}
+
+/* Menggeser posisi lebih ke tengah layar */
+.floating-ad-top {
+    top: 18%; 
+}
+
+.floating-ad-bottom {
+    bottom: 18%; 
+}
+
+.ad-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    color: inherit;
+    flex-grow: 1;
+}
+
+.ad-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ad-tag {
+    background: #ffcc00;
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.ad-text {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.4;
+}
+
+.countdown-text {
+    font-size: 13px;
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+.close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-family: sans-serif;
-    padding: 20px;
-    box-sizing: border-box;
+    margin-left: 15px;
+    flex-shrink: 0;
 }
 
-.ad-box {
-    background: #151515;
-    border: 2px solid #ffcc00;
-    color: #fff;
-    padding: 30px 25px;
-    border-radius: 12px;
-    text-align: center;
-    max-width: 450px;
-    width: 100%;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.8);
-}
-
-.ad-box h3 {
-    color: #ffcc00;
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 20px;
-}
-
-.ad-box p {
-    font-size: 15px;
-    line-height: 1.5;
-    color: #ddd;
-    margin-bottom: 20px;
-}
-
-.countdown-badge {
-    display: inline-block;
-    background: #333;
-    color: #ffcc00;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 14px;
-    border: 1px solid #ffcc00;
+.close-btn:hover {
+    background: rgba(255, 0, 0, 0.8);
 }
 </style>
 </head>
 <body>
 
 <div class="player-container">
-    <!-- BANNER IKLAN DENGAN RANDOM LINK & KALIMAT BARU -->
-    <div id="adOverlay" class="floating-ad" onclick="handleAdClick()">
-        <div class="ad-box">
-            <h3>SPONSOR</h3>
-            <p>Tunggu 5 detik atau ketuk di mana saja untuk memutar video</p>
-            <div>
-                <span id="countdownText" class="countdown-badge">Tutup dalam 5s</span>
+    <!-- IKLAN MELAYANG ATAS -->
+    <div id="adTop" class="floating-ad floating-ad-top" onclick="handleAdClick()">
+        <div class="ad-content">
+            <div class="ad-header">
+                <span class="ad-tag">Sponsor</span>
+                <span class="countdown-text" id="countdownTop">Tutup dalam 5s</span>
             </div>
+            <span class="ad-text">Tunggu 5 detik atau ketuk di mana saja untuk memutar video</span>
         </div>
+        <button class="close-btn" onclick="event.stopPropagation(); closeAd('adTop')">&times;</button>
     </div>
 
+    <!-- VIDEO PLAYER -->
     <video
         id="player"
         controls
@@ -113,6 +161,18 @@ video{
         controlsList="nodownload">
         <source src="" type="video/mp4">
     </video>
+
+    <!-- IKLAN MELAYANG BAWAH -->
+    <div id="adBottom" class="floating-ad floating-ad-bottom" onclick="handleAdClick()">
+        <div class="ad-content">
+            <div class="ad-header">
+                <span class="ad-tag">Promo</span>
+                <span class="countdown-text" id="countdownBottom">Tutup dalam 5s</span>
+            </div>
+            <span class="ad-text">Tunggu 5 detik atau ketuk di mana saja untuk memutar video</span>
+        </div>
+        <button class="close-btn" onclick="event.stopPropagation(); closeAd('adBottom')">&times;</button>
+    </div>
 </div>
 
 <script>
@@ -132,7 +192,8 @@ const SHOPEE_LINK =
 
 
 const video = document.getElementById("player");
-let adClosed = false;
+
+let clicked = false;
 let redirected = false;
 
 
@@ -154,10 +215,10 @@ function getRandomAd(){
 
 
 /* =========================
-   HANDLE KLIK PADA IKLAN
+   HANDLE KLIK IKLAN
 ========================= */
 
-function handleAdClick() {
+function handleAdClick(){
     if(redirected) return;
     redirected = true;
 
@@ -167,14 +228,13 @@ function handleAdClick() {
 
 
 /* =========================
-   FUNGSI TUTUP IKLAN
+   TUTUP IKLAN MANUAL
 ========================= */
-function closeAdOverlay() {
-    if(adClosed) return;
-    adClosed = true;
-    const adOverlay = document.getElementById("adOverlay");
-    if(adOverlay) {
-        adOverlay.style.display = "none";
+
+function closeAd(id) {
+    const el = document.getElementById(id);
+    if(el) {
+        el.style.display = "none";
     }
 }
 
@@ -182,16 +242,20 @@ function closeAdOverlay() {
 /* =========================
    HITUNG MUNDUR 5 DETIK
 ========================= */
+
 let timeLeft = 5;
-const countdownEl = document.getElementById("countdownText");
+const countdownTop = document.getElementById("countdownTop");
+const countdownBottom = document.getElementById("countdownBottom");
 
 const timer = setInterval(() => {
     timeLeft--;
     if(timeLeft > 0) {
-        countdownEl.textContent = `Tutup dalam ${timeLeft}s`;
+        countdownTop.textContent = `Tutup dalam ${timeLeft}s`;
+        countdownBottom.textContent = `Tutup dalam ${timeLeft}s`;
     } else {
         clearInterval(timer);
-        closeAdOverlay();
+        closeAd('adTop');
+        closeAd('adBottom');
     }
 }, 1000);
 
@@ -240,22 +304,18 @@ fetch(JSON_URL)
 
 
 /* =========================
-   KLIK VIDEO SETELAH IKLAN DITUTUP
+   KLIK VIDEO
 ========================= */
 
-let clicked = false;
-
 video.addEventListener("click", function(){
-    if(!adClosed) return; // Jika iklan belum tertutup, abaikan klik pada video
-
-    /* KLIK PERTAMA SETELAH VIDEO MUNCUL */
+    /* KLIK PERTAMA */
     if(!clicked){
         clicked = true;
         return;
     }
 
     /* KLIK KEDUA DAN SETERUSNYA */
-    if(!redirected) {
+    if(!redirected){
         redirected = true;
         window.location.href = getRandomAd();
     }
@@ -263,7 +323,7 @@ video.addEventListener("click", function(){
 
 
 /* =========================
-   REDIRECT SETELAH 30 DETIK PEMUTARAN
+   REDIRECT SETELAH 30 DETIK
 ========================= */
 
 video.addEventListener("timeupdate", function(){
