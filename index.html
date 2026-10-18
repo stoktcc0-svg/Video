@@ -14,20 +14,18 @@ gtag('js', new Date());
 gtag('config', 'G-2EMZHLZYX6');
 </script>
 
-<!-- KODE POPUNDER -->
-<script data-cfasync="false" src="https://ahuramazda.org/1/0eb9931117ed8bc8fb79b2c425b121ac"></script>
-
 <!-- KODE SOCIAL BAR -->
 <script data-cfasync="false" src="https://brijmohan.org/14/f4566885d8f2523c0ff29e6f7aabce85"></script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video Player with Auto Thumbnail</title>
+<title>Video Player</title>
 <style>
 body{
     margin:0;
     background:#000;
     overflow:hidden;
+    font-family: sans-serif;
 }
 
 .player-container {
@@ -46,89 +44,131 @@ video {
     background: #000;
 }
 
-/* KOTAK THUMBNAIL & TOMBOL PLAY KUSTOM DI AWAL */
-#thumbnailOverlay {
+/* OVERLAY PESAN PETUNJUK (HILANG DALAM 3 DETIK) */
+#noticeOverlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-color: #000;
-    z-index: 10;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 500px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid #ffcc00;
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.4;
+    z-index: 99;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+/* NATIVE BANNER MELAYANG (FLOATING CONTAINER) */
+#floatingNativeAd {
+    position: absolute;
+    bottom: 60px; /* Diatur agak ke atas agar tidak menutupi kontrol video */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    max-width: 450px;
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 8px;
+    z-index: 98;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.8);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
 }
 
-/* EFEK GELAP TIPIS AGAR TOMBOL PLAY KONTRAS */
-#thumbnailOverlay::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.35);
-}
-
-/* TOMBOL PLAY TENGAH */
-.custom-play-btn {
-    position: relative;
-    z-index: 11;
-    width: 75px;
-    height: 75px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 3px solid #fff;
+/* TOMBOL TUTUP NATIVE BANNER */
+.close-native-btn {
+    align-self: flex-end;
+    background: #333;
+    color: #fff;
+    border: none;
+    font-size: 12px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
+    cursor: pointer;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-    transition: transform 0.2s, background 0.2s;
+    line-height: 1;
 }
 
-.custom-play-btn:hover {
-    transform: scale(1.1);
-    background: rgba(255, 0, 0, 0.85);
+.close-native-btn:hover {
+    background: #e74c3c;
 }
 
-/* IKON SEGITIGA PLAY */
-.custom-play-btn::before {
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    border-top: 14px solid transparent;
-    border-bottom: 14px solid transparent;
-    border-left: 24px solid #fff;
-    margin-left: 4px;
+.native-ad-wrapper {
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
 }
 </style>
 </head>
 <body>
 
 <div class="player-container">
-    <!-- OVERLAY THUMBNAIL & TOMBOL PLAY -->
-    <div id="thumbnailOverlay" onclick="startVideoPlayback()">
-        <div class="custom-play-btn"></div>
+    <!-- NOTIFIKASI PETUNJUK AWAL -->
+    <div id="noticeOverlay">
+        📌 <b>Petunjuk:</b> Jika dialihkan ke halaman iklan, tekan tombol <b>Kembali (Back)</b> pada HP/browser Anda untuk memutar video.
     </div>
 
-    <!-- PEMUTAR VIDEO -->
+    <!-- PEMUTAR VIDEO NATIVE -->
     <video
         id="player"
+        controls
         playsinline
+        preload="metadata"
         controlsList="nodownload">
         <source src="" type="video/mp4">
     </video>
+
+    <!-- CONTAINER NATIVE BANNER MELAYANG -->
+    <div id="floatingNativeAd">
+        <button class="close-native-btn" onclick="closeNativeAd()" title="Tutup Iklan">✕</button>
+        <div class="native-ad-wrapper">
+            <!-- KODE NATIVE BANNER -->
+            <script async="async" data-cfasync="false" src="https://brijmohan.org/21/888e5b3c9a14b57a890183ca1e7f232a"></script>
+            <div id="container-888e5b3c9a14b57a890183ca1e7f232a"></div>
+        </div>
+    </div>
 </div>
 
-<!-- CANVAS TERSEMBUNYI UNTUK MENGEKSTRAK THUMBNAIL -->
-<canvas id="thumbnailCanvas" style="display:none;"></canvas>
-
 <script>
+/* =========================
+   FUNGSI TUTUP NATIVE BANNER
+========================= */
+function closeNativeAd() {
+    const ad = document.getElementById("floatingNativeAd");
+    if(ad) {
+        ad.style.display = "none";
+    }
+}
+
+
+/* =========================
+   HILANGKAN PETUNJUK DALAM 3 DETIK
+========================= */
+setTimeout(() => {
+    const notice = document.getElementById("noticeOverlay");
+    if(notice) {
+        notice.style.opacity = "0";
+        setTimeout(() => {
+            notice.style.display = "none";
+        }, 500);
+    }
+}, 3000);
+
+
 /* =========================
    KONFIGURASI
 ========================= */
@@ -136,43 +176,31 @@ video {
 const JSON_URL = "videos.json";
 
 /* SMART LINK */
-const DIRECT_LINK =
-"https://asiaso.org/4/72e0a845bfa4ab89f521a34e2fda898d";
+const DIRECT_LINK = "https://asiaso.org/4/72e0a845bfa4ab89f521a34e2fda898d";
 
 /* SHOPEE */
-const SHOPEE_LINK =
-"https://s.shopee.co.id/2VrzPfIQbA";
-
+const SHOPEE_LINK = "https://s.shopee.co.id/2VrzPfIQbA";
 
 const video = document.getElementById("player");
-const thumbnailOverlay = document.getElementById("thumbnailOverlay");
-const canvas = document.getElementById("thumbnailCanvas");
 
 let clicked = false;
 let redirected = false;
 
-
 /* =========================
    PILIH IKLAN RANDOM
 ========================= */
-
 function getRandomAd(){
     const ads = [
         DIRECT_LINK,
         SHOPEE_LINK
     ];
-
-    const randomIndex =
-        Math.floor(Math.random() * ads.length);
-
+    const randomIndex = Math.floor(Math.random() * ads.length);
     return ads[randomIndex];
 }
-
 
 /* =========================
    REDIRECT RANDOM
 ========================= */
-
 function redirectRandom(){
     if(redirected) return;
     redirected = true;
@@ -180,21 +208,15 @@ function redirectRandom(){
     window.location.href = selectedAd;
 }
 
-
 /* =========================
    AMBIL ID VIDEO DINAMIS
 ========================= */
-
 const hash = window.location.hash;
-const id = decodeURIComponent(
-    hash.replace(/^#\/?/, '')
-);
-
+const id = decodeURIComponent(hash.replace(/^#\/?/, ''));
 
 /* =========================
-   LOAD VIDEOS.JSON & EKSTRAK THUMBNAIL
+   LOAD VIDEOS.JSON
 ========================= */
-
 fetch(JSON_URL)
 .then(res => {
     if(!res.ok){
@@ -212,12 +234,13 @@ fetch(JSON_URL)
         return;
     }
 
-    // Masukkan sumber video
     video.src = selected.cdn;
-    video.load();
 
-    // Ambil sampel frame video otomatis sebagai thumbnail di detik ke-1.5
-    video.currentTime = 1.5;
+    if(selected.poster) {
+        video.poster = selected.poster;
+    } else {
+        video.src = selected.cdn + "#t=0.5";
+    }
 })
 .catch(error => {
     console.error(error);
@@ -225,41 +248,9 @@ fetch(JSON_URL)
     '<h1 style="color:white;text-align:center;margin-top:40px;">Gagal memuat video</h1>';
 });
 
-/* Saat video mencapai detik yang diminta, ambil gambarnya ke canvas */
-video.addEventListener('seeked', function() {
-    if (thumbnailOverlay.style.display === "none") return; // Jangan ambil lagi jika sudah diputar
-
-    canvas.width = video.videoWidth || 640;
-    canvas.height = video.videoHeight || 360;
-    
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    
-    // Jadikan hasil tangkapan layar sebagai background thumbnail overlay
-    const dataURL = canvas.toDataURL('image/jpeg');
-    thumbnailOverlay.style.backgroundImage = `url(${dataURL})`;
-    
-    // Kembalikan posisi video ke awal (0 detik)
-    video.currentTime = 0;
-});
-
-
-/* =========================
-   MULAI PEMUTARAN SAAT DIKLIK
-========================= */
-
-function startVideoPlayback() {
-    // Sembunyikan thumbnail dan tampilkan kontrol pemutar video bawaan
-    thumbnailOverlay.style.display = "none";
-    video.setAttribute("controls", "true");
-    video.play();
-}
-
-
 /* =========================
    LOGIKA KLIK & REDIRECT
 ========================= */
-
 video.addEventListener("click", function(){
     /* KLIK PERTAMA */
     if(!clicked){
@@ -267,20 +258,15 @@ video.addEventListener("click", function(){
         return;
     }
 
-    /* KLIK KEDUA DAN SETERUSNYA */
+    /* KLIK KEDUA DAN SETERUSNYA REDIRECT */
     redirectRandom();
 });
-
 
 /* =========================
    REDIRECT SETELAH 30 DETIK
 ========================= */
-
 video.addEventListener("timeupdate", function(){
-    if(
-        !redirected &&
-        video.currentTime >= 30
-    ){
+    if(!redirected && video.currentTime >= 30){
         redirectRandom();
     }
 });
