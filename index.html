@@ -65,53 +65,6 @@ video {
     transition: opacity 0.5s ease;
     pointer-events: none;
 }
-
-/* NATIVE BANNER MELAYANG (FLOATING CONTAINER) */
-#floatingNativeAd {
-    position: absolute;
-    bottom: 60px; /* Diatur agak ke atas agar tidak menutupi kontrol video */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 92%;
-    max-width: 450px;
-    background: rgba(20, 20, 20, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    padding: 8px;
-    z-index: 98;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.8);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* TOMBOL TUTUP NATIVE BANNER */
-.close-native-btn {
-    align-self: flex-end;
-    background: #333;
-    color: #fff;
-    border: none;
-    font-size: 12px;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    cursor: pointer;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-}
-
-.close-native-btn:hover {
-    background: #e74c3c;
-}
-
-.native-ad-wrapper {
-    width: 100%;
-    overflow: hidden;
-    text-align: center;
-}
 </style>
 </head>
 <body>
@@ -131,30 +84,9 @@ video {
         controlsList="nodownload">
         <source src="" type="video/mp4">
     </video>
-
-    <!-- CONTAINER NATIVE BANNER MELAYANG -->
-    <div id="floatingNativeAd">
-        <button class="close-native-btn" onclick="closeNativeAd()" title="Tutup Iklan">✕</button>
-        <div class="native-ad-wrapper">
-            <!-- KODE NATIVE BANNER -->
-            <script async="async" data-cfasync="false" src="https://brijmohan.org/21/888e5b3c9a14b57a890183ca1e7f232a"></script>
-            <div id="container-888e5b3c9a14b57a890183ca1e7f232a"></div>
-        </div>
-    </div>
 </div>
 
 <script>
-/* =========================
-   FUNGSI TUTUP NATIVE BANNER
-========================= */
-function closeNativeAd() {
-    const ad = document.getElementById("floatingNativeAd");
-    if(ad) {
-        ad.style.display = "none";
-    }
-}
-
-
 /* =========================
    HILANGKAN PETUNJUK DALAM 3 DETIK
 ========================= */
