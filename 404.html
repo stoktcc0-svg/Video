@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2XMZNLZYX6"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+
+function gtag(){
+    dataLayer.push(arguments);
+}
+
+gtag('js', new Date());
+gtag('config', 'G-2EMZHLZYX6');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Player</title>
+<style>
+body {
+    margin: 0;
+    background: #f8f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* HEADER ATAS */
+.site-header {
+    background: #ffffff;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e7eb;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 18px;
+    color: #111827;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.telegram-btn {
+    background: #0088cc;
+    color: #ffffff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s;
+}
+
+.telegram-btn:hover {
+    background: #0077b5;
+}
+
+/* KONTAINER UTAMA PEMUTAR VIDEO */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.player-wrapper {
+    width: 100%;
+    max-width: 640px;
+    background: #000000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+video {
+    width: 100%;
+    height: auto;
+    max-height: 75vh;
+    display: block;
+    background: #000;
+}
+
+video::-webkit-media-controls-fullscreen-button {
+    display: none !important;
+}
+
+/* AREA BANNER NATIVE DI BAWAH VIDEO */
+.banner-container {
+    width: 100%;
+    max-width: 640px;
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* TEKS / TOMBOL CTA DI BAWAH VIDEO */
+.cta-container {
+    margin-top: 12px;
+    text-align: center;
+}
+
+.cta-link {
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.cta-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER ATAS -->
+<header class="site-header">
+    <a href="#" class="logo">aceimg</a>
+    <a href="https://t.me/kumpulanvideyindonesiaviral" target="_blank" rel="noopener noreferrer" class="telegram-btn">Join Telegram</a>
+</header>
+
+<!-- KONTEN UTAMA -->
+<div class="main-content">
+    <div class="player-wrapper">
+        <video
+            id="player"
+            controls
+            playsinline
+            webkit-playsinline
+            preload="metadata"
+            controlsList="nofullscreen nodownload">
+            <source src="" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- NATIVE BANNER ADSTERRA DI BAWAH VIDEO -->
+    <div class="banner-container">
+        <script async="async" data-cfasync="false" src="https://brijmohan.org/21/3f056139487d500edce43f626a2304cf"></script>
+        <div id="container-3f056139487d500edce43f626a2304cf"></div>
+    </div>
+
+    <!-- TEKS CTA DI BAWAH VIDEO -->
+    <div class="cta-container">
+        <a href="#" id="ctaBtn" class="cta-link">Dapatkan akses sekarang</a>
+    </div>
+</div>
+
+<script>
+/* =========================
+   KONFIGURASI IKLAN & INTENT
+========================= */
+const JSON_URL = "videos.json";
+const DIRECT_LINK = "https://asiaso.org/4/dd0fd223f44b88381ac7e49fca0d0310";
+
+/* Format Intent Android untuk Shopee Affiliate */
+const SHOPEE_INTENT = "intent://s.shopee.co.id/50aShM6iR5#Intent;package=com.shopee.id;scheme=https;end;";
+const SHOPEE_WEBBACKUP = "https://s.shopee.co.id/50aShM6iR5";
+
+const video = document.getElementById("player");
+const ctaBtn = document.getElementById("ctaBtn");
+
+/* BLOKIR FULLSCREEN VIA JAVASCRIPT */
+video.requestFullscreen = function() { return Promise.reject(); };
+if (video.webkitRequestFullscreen) video.webkitRequestFullscreen = function() {};
+if (video.msRequestFullscreen) video.msRequestFullscreen = function() {};
+
+/* KUNCI SESI AUTO-REDIRECT & SIMPAN WAKTU */
+const redirectKey = "auto_redirected_" + window.location.pathname;
+const timeKey = "video_time_" + window.location.pathname;
+
+let isRedirected = sessionStorage.getItem(redirectKey) === "true";
+
+/* Fungsi pemilih iklan cerdas dengan dukungan Intent Android */
+function getTargetAd() {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    
+    // Jika acak kena Shopee dan user pakai Android, gunakan format Intent agar langsung buka aplikasi
+    const chooseShopee = Math.random() < 0.5;
+    
+    if (chooseShopee) {
+        return isAndroid ? SHOPEE_INTENT : SHOPEE_WEBBACKUP;
+    } else {
+        return DIRECT_LINK; // Direct Link Adsterra
+    }
+}
+
+/* FUNGSI AUTO REDIRECT (ANTI-LOOPING) */
+function executeAutoRedirect() {
+    if (isRedirected) return;
+    
+    isRedirected = true;
+    sessionStorage.setItem(redirectKey, "true");
+    sessionStorage.setItem(timeKey, video.currentTime);
+    
+    video.removeEventListener("timeupdate", checkTime);
+
+    const targetUrl = getTargetAd();
+    
+    // Eksekusi redirect keluar dari browser Twitter
+    const newTab = window.open(targetUrl, '_blank');
+    if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+        window.location.href = targetUrl;
+    }
+}
+
+/* KLIK MANUAL TOMBOL CTA */
+ctaBtn.addEventListener("click", function(e) {
+    e.preventDefault();
+    sessionStorage.setItem(timeKey, video.currentTime);
+    
+    const targetUrl = getTargetAd();
+    const newTab = window.open(targetUrl, '_blank');
+    if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+        window.location.href = targetUrl;
+    }
+});
+
+/* =========================
+   AMBIL ID DARI PATH URL
+========================= */
+const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
+const id = decodeURIComponent(path);
+
+/* =========================
+   LOAD VIDEOS.JSON & RESUME WAKTU
+========================= */
+fetch(JSON_URL)
+.then(res => {
+    if(!res.ok) throw new Error("Gagal mengambil videos.json");
+    return res.json();
+})
+.then(data => {
+    const vids = data.videos;
+    const selected = vids.find(v => v.id === id || (v.cdn && v.cdn.includes(id)));
+
+    if(!selected || !id){
+        document.body.innerHTML =
+        '<h1 style="color:#111;text-align:center;margin-top:40px;">Video tidak ditemukan</h1>';
+        return;
+    }
+
+    video.src = selected.cdn;
+
+    if(selected.poster) {
+        video.poster = selected.poster;
+    } else {
+        video.src = selected.cdn + "#t=0.5";
+    }
+
+    video.addEventListener("loadedmetadata", function() {
+        const savedTime = sessionStorage.getItem(timeKey);
+        if (savedTime && !isNaN(savedTime)) {
+            video.currentTime = parseFloat(savedTime);
+        }
+    });
+})
+.catch(error => {
+    console.error(error);
+    document.body.innerHTML =
+    '<h1 style="color:#111;text-align:center;margin-top:40px;">Gagal memuat video</h1>';
+});
+
+/* =========================
+   LOGIKA DETIK KE-30
+========================= */
+function checkTime() {
+    if (video.currentTime > 0) {
+        sessionStorage.setItem(timeKey, video.currentTime);
+    }
+
+    if (!isRedirected && video.currentTime >= 30) {
+        executeAutoRedirect();
+    }
+}
+
+video.addEventListener("timeupdate", checkTime);
+</script>
+
+</body>
+</html>
