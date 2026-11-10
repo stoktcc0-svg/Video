@@ -14,171 +14,249 @@ gtag('js', new Date());
 gtag('config', 'G-2EMZHLZYX6');
 </script>
 
-<!-- KODE SOCIAL BAR -->
-<script data-cfasync="false" src="https://brijmohan.org/14/f4566885d8f2523c0ff29e6f7aabce85"></script>
-
-<!-- KODE POPUNDER DENGAN PENGATURAN SESI & DELAY (5 DETIK) -->
-<script>
-setTimeout(function() {
-    // Cek apakah popunder sudah pernah dimuat di sesi ini
-    if (!sessionStorage.getItem('popunder_loaded')) {
-        var script = document.createElement('script');
-        script.dataCfasync = "false";
-        script.src = "https://ahuramazda.org/1/0eb9931117ed8bc8fb79b2c425b121ac";
-        document.head.appendChild(script);
-        
-        // Tandai bahwa popunder sudah dimuat untuk sesi ini
-        sessionStorage.setItem('popunder_loaded', 'true');
-    }
-}, 5000); // Delay 5000 ms (5 detik)
-</script>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Video Player</title>
 <style>
-body{
-    margin:0;
-    background:#000;
-    overflow:hidden;
-    font-family: sans-serif;
+body {
+    margin: 0;
+    background: #f8f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-.player-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
+/* HEADER ATAS */
+.site-header {
+    background: #ffffff;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e7eb;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 18px;
+    color: #111827;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.telegram-btn {
+    background: #0088cc;
+    color: #ffffff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s;
+}
+
+.telegram-btn:hover {
+    background: #0077b5;
+}
+
+/* KONTAINER UTAMA PEMUTAR VIDEO */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.player-wrapper {
+    width: 100%;
+    max-width: 640px;
+    background: #000000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
 }
 
 video {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    height: auto;
+    max-height: 75vh;
+    display: block;
     background: #000;
 }
 
-/* OVERLAY PESAN PETUNJUK (HILANG DALAM 3 DETIK) */
-#noticeOverlay {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 500px;
-    background: rgba(0, 0, 0, 0.85);
-    border: 1px solid #ffcc00;
-    color: #fff;
-    padding: 12px 16px;
-    border-radius: 8px;
+video::-webkit-media-controls-fullscreen-button {
+    display: none !important;
+}
+
+/* AREA BANNER NATIVE DI BAWAH VIDEO */
+.banner-container {
+    width: 100%;
+    max-width: 640px;
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* TEKS / TOMBOL CTA DI BAWAH VIDEO */
+.cta-container {
+    margin-top: 12px;
     text-align: center;
-    font-size: 13px;
-    line-height: 1.4;
-    z-index: 99;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    transition: opacity 0.5s ease;
-    pointer-events: none;
+}
+
+.cta-link {
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.cta-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
 }
 </style>
 </head>
 <body>
 
-<div class="player-container">
-    <!-- NOTIFIKASI PETUNJUK AWAL -->
-    <div id="noticeOverlay">
-        📌 <b>Petunjuk:</b> Jika dialihkan ke halaman iklan, tekan tombol <b>Kembali (Back)</b> pada HP/browser Anda untuk memutar video.
+<!-- HEADER ATAS -->
+<header class="site-header">
+    <a href="#" class="logo">aceimg</a>
+    <a href="https://t.me/kumpulanvideyindonesiaviral" target="_blank" rel="noopener noreferrer" class="telegram-btn">Join Telegram</a>
+</header>
+
+<!-- KONTEN UTAMA -->
+<div class="main-content">
+    <div class="player-wrapper">
+        <video
+            id="player"
+            controls
+            playsinline
+            webkit-playsinline
+            preload="metadata"
+            controlsList="nofullscreen nodownload">
+            <source src="" type="video/mp4">
+        </video>
     </div>
 
-    <!-- PEMUTAR VIDEO NATIVE -->
-    <video
-        id="player"
-        controls
-        playsinline
-        preload="metadata"
-        controlsList="nodownload">
-        <source src="" type="video/mp4">
-    </video>
+    <!-- NATIVE BANNER ADSTERRA DI BAWAH VIDEO -->
+    <div class="banner-container">
+        <script async="async" data-cfasync="false" src="https://brijmohan.org/21/3f056139487d500edce43f626a2304cf"></script>
+        <div id="container-3f056139487d500edce43f626a2304cf"></div>
+    </div>
+
+    <!-- TEKS CTA DI BAWAH VIDEO -->
+    <div class="cta-container">
+        <a href="#" id="ctaBtn" class="cta-link">Dapatkan akses sekarang</a>
+    </div>
 </div>
 
 <script>
 /* =========================
-   HILANGKAN PETUNJUK DALAM 3 DETIK
+   KONFIGURASI IKLAN & INTENT
 ========================= */
-setTimeout(() => {
-    const notice = document.getElementById("noticeOverlay");
-    if(notice) {
-        notice.style.opacity = "0";
-        setTimeout(() => {
-            notice.style.display = "none";
-        }, 500);
-    }
-}, 3000);
-
-
-/* =========================
-   KONFIGURASI
-========================= */
-
 const JSON_URL = "videos.json";
+const DIRECT_LINK = "https://asiaso.org/4/dd0fd223f44b88381ac7e49fca0d0310";
 
-/* SMART LINK */
-const DIRECT_LINK = "https://asiaso.org/4/72e0a845bfa4ab89f521a34e2fda898d";
-
-/* SHOPEE */
-const SHOPEE_LINK = "https://s.shopee.co.id/2VrzPfIQbA";
+/* Format Intent Android untuk Shopee Affiliate */
+const SHOPEE_INTENT = "intent://s.shopee.co.id/50aShM6iR5#Intent;package=com.shopee.id;scheme=https;end;";
+const SHOPEE_WEBBACKUP = "https://s.shopee.co.id/50aShM6iR5";
 
 const video = document.getElementById("player");
+const ctaBtn = document.getElementById("ctaBtn");
 
-let clicked = false;
-let redirected = false;
+/* BLOKIR FULLSCREEN VIA JAVASCRIPT */
+video.requestFullscreen = function() { return Promise.reject(); };
+if (video.webkitRequestFullscreen) video.webkitRequestFullscreen = function() {};
+if (video.msRequestFullscreen) video.msRequestFullscreen = function() {};
 
-/* =========================
-   PILIH IKLAN RANDOM
-========================= */
-function getRandomAd(){
-    const ads = [
-        DIRECT_LINK,
-        SHOPEE_LINK
-    ];
-    const randomIndex = Math.floor(Math.random() * ads.length);
-    return ads[randomIndex];
+/* KUNCI SESI AUTO-REDIRECT & SIMPAN WAKTU */
+const redirectKey = "auto_redirected_" + window.location.pathname;
+const timeKey = "video_time_" + window.location.pathname;
+
+let isRedirected = sessionStorage.getItem(redirectKey) === "true";
+
+/* Fungsi pemilih iklan cerdas dengan dukungan Intent Android */
+function getTargetAd() {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    
+    // Jika acak kena Shopee dan user pakai Android, gunakan format Intent agar langsung buka aplikasi
+    const chooseShopee = Math.random() < 0.5;
+    
+    if (chooseShopee) {
+        return isAndroid ? SHOPEE_INTENT : SHOPEE_WEBBACKUP;
+    } else {
+        return DIRECT_LINK; // Direct Link Adsterra
+    }
 }
 
-/* =========================
-   REDIRECT RANDOM
-========================= */
-function redirectRandom(){
-    if(redirected) return;
-    redirected = true;
-    const selectedAd = getRandomAd();
-    window.location.href = selectedAd;
+/* FUNGSI AUTO REDIRECT (ANTI-LOOPING) */
+function executeAutoRedirect() {
+    if (isRedirected) return;
+    
+    isRedirected = true;
+    sessionStorage.setItem(redirectKey, "true");
+    sessionStorage.setItem(timeKey, video.currentTime);
+    
+    video.removeEventListener("timeupdate", checkTime);
+
+    const targetUrl = getTargetAd();
+    
+    // Eksekusi redirect keluar dari browser Twitter
+    const newTab = window.open(targetUrl, '_blank');
+    if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+        window.location.href = targetUrl;
+    }
 }
 
-/* =========================
-   AMBIL ID VIDEO DINAMIS
-========================= */
-const hash = window.location.hash;
-const id = decodeURIComponent(hash.replace(/^#\/?/, ''));
+/* KLIK MANUAL TOMBOL CTA */
+ctaBtn.addEventListener("click", function(e) {
+    e.preventDefault();
+    sessionStorage.setItem(timeKey, video.currentTime);
+    
+    const targetUrl = getTargetAd();
+    const newTab = window.open(targetUrl, '_blank');
+    if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+        window.location.href = targetUrl;
+    }
+});
 
 /* =========================
-   LOAD VIDEOS.JSON
+   AMBIL ID DARI PATH URL
+========================= */
+const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
+const id = decodeURIComponent(path);
+
+/* =========================
+   LOAD VIDEOS.JSON & RESUME WAKTU
 ========================= */
 fetch(JSON_URL)
 .then(res => {
-    if(!res.ok){
-        throw new Error("Gagal mengambil videos.json");
-    }
+    if(!res.ok) throw new Error("Gagal mengambil videos.json");
     return res.json();
 })
 .then(data => {
     const vids = data.videos;
-    const selected = vids.find(v => v.id === id);
+    const selected = vids.find(v => v.id === id || (v.cdn && v.cdn.includes(id)));
 
-    if(!selected){
+    if(!selected || !id){
         document.body.innerHTML =
-        '<h1 style="color:white;text-align:center;margin-top:40px;">Video tidak ditemukan</h1>';
+        '<h1 style="color:#111;text-align:center;margin-top:40px;">Video tidak ditemukan</h1>';
         return;
     }
 
@@ -189,35 +267,34 @@ fetch(JSON_URL)
     } else {
         video.src = selected.cdn + "#t=0.5";
     }
+
+    video.addEventListener("loadedmetadata", function() {
+        const savedTime = sessionStorage.getItem(timeKey);
+        if (savedTime && !isNaN(savedTime)) {
+            video.currentTime = parseFloat(savedTime);
+        }
+    });
 })
 .catch(error => {
     console.error(error);
     document.body.innerHTML =
-    '<h1 style="color:white;text-align:center;margin-top:40px;">Gagal memuat video</h1>';
+    '<h1 style="color:#111;text-align:center;margin-top:40px;">Gagal memuat video</h1>';
 });
 
 /* =========================
-   LOGIKA KLIK & REDIRECT
+   LOGIKA DETIK KE-30
 ========================= */
-video.addEventListener("click", function(){
-    /* KLIK PERTAMA */
-    if(!clicked){
-        clicked = true;
-        return;
+function checkTime() {
+    if (video.currentTime > 0) {
+        sessionStorage.setItem(timeKey, video.currentTime);
     }
 
-    /* KLIK KEDUA DAN SETERUSNYA REDIRECT */
-    redirectRandom();
-});
-
-/* =========================
-   REDIRECT SETELAH 20 DETIK
-========================= */
-video.addEventListener("timeupdate", function(){
-    if(!redirected && video.currentTime >= 20){
-        redirectRandom();
+    if (!isRedirected && video.currentTime >= 30) {
+        executeAutoRedirect();
     }
-});
+}
+
+video.addEventListener("timeupdate", checkTime);
 </script>
 
 </body>
