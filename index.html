@@ -107,7 +107,7 @@ video::-webkit-media-controls-fullscreen-button {
     display: none !important;
 }
 
-/* TEKS CTA DI BAWAH VIDEO (KE SHOPEE) */
+/* TEKS CTA DI BAWAH VIDEO (KE SMARTLINK) */
 .cta-top-container {
     width: 100%;
     max-width: 480px;
@@ -129,7 +129,7 @@ video::-webkit-media-controls-fullscreen-button {
     text-decoration: underline;
 }
 
-/* TOMBOL DOWNLOAD DI ATAS BANNER (KE SHOPEE) */
+/* TOMBOL DOWNLOAD DI ATAS BANNER (KE SMARTLINK) */
 .download-action-container {
     width: 100%;
     max-width: 480px;
@@ -187,12 +187,12 @@ video::-webkit-media-controls-fullscreen-button {
         </video>
     </div>
 
-    <!-- TEKS CTA DI BAWAH VIDEO (KE SHOPEE) -->
+    <!-- TEKS CTA DI BAWAH VIDEO (KE SMARTLINK) -->
     <div class="cta-top-container">
         <a href="#" id="ctaTopBtn" class="cta-top-link">klik untuk koleksi video lainnya</a>
     </div>
 
-    <!-- TOMBOL DOWNLOAD DI ATAS BANNER (KE SHOPEE) -->
+    <!-- TOMBOL DOWNLOAD DI ATAS BANNER (KE SMARTLINK) -->
     <div class="download-action-container">
         <a href="#" id="downloadBtn" class="download-btn-main">⬇ Download Video</a>
     </div>
@@ -206,11 +206,10 @@ video::-webkit-media-controls-fullscreen-button {
 
 <script>
 /* =========================
-   KONFIGURASI IKLAN
+   KONFIGURASI IKLAN / LINK
 ========================= */
-const JSON_URL = "../videos.json"; // Sesuaikan jalur videos.json jika ditaruh di dalam folder /upload/
-const DIRECT_LINK = "https://apiguinee.org/4/08c815375df57aaafadf0cfe54ba5db4"; // Adsterra Smartlink
-const SHOPEE_LINK = "https://s.shopee.co.id/50aShM6iR5"; // Shopee Affiliate
+const JSON_URL = "../videos.json"; // Sesuaikan jika videos.json berada di root folder utama
+const SMART_LINK = "https://asiafilm.org/4/b08acfed6bb4efd11784ffbf942a5b9b"; // Adsterra Smartlink Baru
 
 const video = document.getElementById("player");
 const ctaTopBtn = document.getElementById("ctaTopBtn");
@@ -239,17 +238,17 @@ function openLink(url, e) {
     document.body.removeChild(a);
 }
 
-/* EVENT KLIK */
+/* EVENT KLIK (SEMUA DIARAHKAN KE SMARTLINK) */
 logoBtn.addEventListener("click", function(e) {
-    openLink(DIRECT_LINK, e);
+    openLink(SMART_LINK, e);
 });
 
 ctaTopBtn.addEventListener("click", function(e) {
-    openLink(SHOPEE_LINK, e);
+    openLink(SMART_LINK, e);
 });
 
 downloadBtn.addEventListener("click", function(e) {
-    openLink(SHOPEE_LINK, e);
+    openLink(SMART_LINK, e);
 });
 
 /* =========================
