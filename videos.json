@@ -1,4 +1,3 @@
-Berikut adalah perbaikan dan penambahan data JSON di atas dengan memperbaiki bagian awal yang terpotong serta menyesuaikan id agar sama persis dengan nama file dari link CDN-nya (misalnya link RsRTT5f33.mp4 maka id-nya menjadi RsRTT5f33.mp4):
 {
   "videos": [
     {
@@ -71,4 +70,3 @@ Berikut adalah perbaikan dan penambahan data JSON di atas dengan memperbaiki bag
     }
   ]
 }
-
