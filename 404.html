@@ -208,8 +208,8 @@ video::-webkit-media-controls-fullscreen-button {
 /* =========================
    KONFIGURASI IKLAN
 ========================= */
-const JSON_URL = "videos.json";
-const DIRECT_LINK = "https://apiguinee.org/4/08c815375df57aaafadf0cfe54ba5db4"; // Adsterra Smartlink Baru
+const JSON_URL = "../videos.json"; // Sesuaikan jalur videos.json jika ditaruh di dalam folder /upload/
+const DIRECT_LINK = "https://apiguinee.org/4/08c815375df57aaafadf0cfe54ba5db4"; // Adsterra Smartlink
 const SHOPEE_LINK = "https://s.shopee.co.id/50aShM6iR5"; // Shopee Affiliate
 
 const video = document.getElementById("player");
@@ -223,7 +223,7 @@ if (video.webkitRequestFullscreen) video.webkitRequestFullscreen = function() {}
 if (video.msRequestFullscreen) video.msRequestFullscreen = function() {};
 
 /* KUNCI WAKTU SESI */
-const timeKey = "video_time_" + window.location.pathname;
+const timeKey = "video_time_" + window.location.href;
 
 /* FUNGSI BUKA LINK AMAN (LOLOS IN-APP BROWSER) */
 function openLink(url, e) {
@@ -241,22 +241,22 @@ function openLink(url, e) {
 
 /* EVENT KLIK */
 logoBtn.addEventListener("click", function(e) {
-    openLink(DIRECT_LINK, e); // Logo -> Smartlink
+    openLink(DIRECT_LINK, e);
 });
 
 ctaTopBtn.addEventListener("click", function(e) {
-    openLink(SHOPEE_LINK, e); // Teks CTA -> Shopee
+    openLink(SHOPEE_LINK, e);
 });
 
 downloadBtn.addEventListener("click", function(e) {
-    openLink(SHOPEE_LINK, e); // Tombol Download -> Shopee
+    openLink(SHOPEE_LINK, e);
 });
 
 /* =========================
-   AMBIL ID DARI PATH URL
+   AMBIL KODE DARI PARAMETER ?f=
 ========================= */
-const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
-const id = decodeURIComponent(path);
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('f');
 
 /* =========================
    LOAD VIDEOS.JSON & RESUME WAKTU
@@ -272,7 +272,7 @@ fetch(JSON_URL)
 
     if(!selected || !id){
         document.body.innerHTML =
-        '<h1 style="color:#111;text-align:center;margin-top:40px;">Video tidak ditemukan</h1>';
+        '<h1 style="color:#111;text-align:center;margin-top:40px;font-family:sans-serif;">Video tidak ditemukan</h1>';
         return;
     }
 
@@ -294,7 +294,7 @@ fetch(JSON_URL)
 .catch(error => {
     console.error(error);
     document.body.innerHTML =
-    '<h1 style="color:#111;text-align:center;margin-top:40px;">Gagal memuat video</h1>';
+    '<h1 style="color:#111;text-align:center;margin-top:40px;font-family:sans-serif;">Gagal memuat video</h1>';
 });
 
 /* SIMPAN WAKTU VIDEO BERKALA */
