@@ -107,11 +107,21 @@ video::-webkit-media-controls-fullscreen-button {
     display: none !important;
 }
 
-/* TEKS CTA DI BAWAH VIDEO (KE SMARTLINK) */
+/* AREA NATIVE BANNER DI BAWAH VIDEO */
+.banner-container {
+    width: 100%;
+    max-width: 480px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* TEKS CTA DI BAWAH BANNER (KE SMARTLINK) */
 .cta-top-container {
     width: 100%;
     max-width: 480px;
-    margin-top: 8px;
+    margin-top: 10px;
     text-align: center;
 }
 
@@ -129,7 +139,7 @@ video::-webkit-media-controls-fullscreen-button {
     text-decoration: underline;
 }
 
-/* TOMBOL DOWNLOAD DI ATAS BANNER (KE SMARTLINK) */
+/* TOMBOL DOWNLOAD DI BAWAH CTA (KE SMARTLINK) */
 .download-action-container {
     width: 100%;
     max-width: 480px;
@@ -152,16 +162,6 @@ video::-webkit-media-controls-fullscreen-button {
 
 .download-btn-main:hover {
     background: #1d4ed8;
-}
-
-/* AREA NATIVE BANNER DI BAWAH TOMBOL DOWNLOAD */
-.banner-container {
-    width: 100%;
-    max-width: 480px;
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 </style>
 </head>
@@ -187,20 +187,20 @@ video::-webkit-media-controls-fullscreen-button {
         </video>
     </div>
 
-    <!-- TEKS CTA DI BAWAH VIDEO (KE SMARTLINK) -->
+    <!-- NATIVE BANNER ADSTERRA (DI ATAS CTA & DOWNLOAD) -->
+    <div class="banner-container">
+        <script async="async" data-cfasync="false" src="https://bommelstein.org/21/e170b26b99b8f7f08a5ae2cce8ef0829"></script>
+        <div id="container-e170b26b99b8f7f08a5ae2cce8ef0829"></div>
+    </div>
+
+    <!-- TEKS CTA (KE SMARTLINK) -->
     <div class="cta-top-container">
         <a href="#" id="ctaTopBtn" class="cta-top-link">klik untuk koleksi video lainnya</a>
     </div>
 
-    <!-- TOMBOL DOWNLOAD DI ATAS BANNER (KE SMARTLINK) -->
+    <!-- TOMBOL DOWNLOAD (KE SMARTLINK) -->
     <div class="download-action-container">
         <a href="#" id="downloadBtn" class="download-btn-main">⬇ Download Video</a>
-    </div>
-
-    <!-- NATIVE BANNER ADSTERRA -->
-    <div class="banner-container">
-        <script async="async" data-cfasync="false" src="https://biomanos.org/21/e170b26b99b8f7f08a5ae2cce8ef0829"></script>
-        <div id="container-e170b26b99b8f7f08a5ae2cce8ef0829"></div>
     </div>
 </div>
 
